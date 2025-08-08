@@ -3,6 +3,9 @@ on:
     branches:
       - main
 name: Push Main
+permissions:
+  contents: write
+  pages: write
 jobs:
   reusable:
     uses: joshorr/workflows/.github/workflows/py-push-main.yml@main

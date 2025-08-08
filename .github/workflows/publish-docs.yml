@@ -1,5 +1,8 @@
 on: workflow_dispatch
 name: Publish Docs
+permissions:
+  contents: write
+  pages: write
 jobs:
   reusable:
     uses: joshorr/workflows/.github/workflows/py-publish-docs.yml@main
