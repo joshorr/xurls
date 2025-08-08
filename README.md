@@ -10,7 +10,7 @@ Also allows for easily composable urls.
 
 Everything is subject to change!
 
-**[📄 Detailed Documentation](https://xyngular.github.io/py-xurls/latest/)** | **[🐍 PyPi](https://pypi.org/project/xurls/)**
+**[📄 Detailed Documentation](https://joshorr.github.io/xurls/latest/)** | **[🐍 PyPi](https://pypi.org/project/xurls/)**
 
 ## Getting Started
 
