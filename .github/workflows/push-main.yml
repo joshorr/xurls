@@ -6,6 +6,7 @@ name: Push Main
 permissions:
   contents: write
   pages: write
+  pull-requests: write
 jobs:
   reusable:
     uses: joshorr/workflows/.github/workflows/py-push-main.yml@main
