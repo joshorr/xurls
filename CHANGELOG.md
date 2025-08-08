@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0](https://github.com/joshorr/xurls/compare/v1.2.1...v1.3.0) (2025-08-08)
+
+
+### Features
+
+* add make suffix  '__in!' work ([0297cfd](https://github.com/joshorr/xurls/commit/0297cfd1d9fedc8f3b546ffaf6e10ec2949b7001))
+
+
+### Bug Fixes
+
+* add '__in!' as suffix to keep in url query strings ([ade4009](https://github.com/joshorr/xurls/commit/ade4009a93bd7facbeeceb59a04715a144c205bc))
+* add '__in!' as suffix to keep in url query strings ([23996a7](https://github.com/joshorr/xurls/commit/23996a7c815d5c0a517b664bb78292fc35d5ff65))
+
 ## [1.2.1](https://github.com/xyngular/py-xurls/compare/v1.2.0...v1.2.1) (2024-09-04)
 
 
