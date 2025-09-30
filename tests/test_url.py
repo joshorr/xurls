@@ -16,6 +16,20 @@ def test_hst_url():
     print(url)
 
 
+def test_basic_metadata():
+    url = Url(metadata={'hello': 'hello-value'})
+    assert url.metadata == {'hello': 'hello-value'}
+
+    url.append_metadata({'hi': 'hi-value'})
+    assert url.metadata == {'hello': 'hello-value', 'hi': 'hi-value'}
+
+    final_expected = {'hello': 'hello-value', 'hi': 'hi-value', 'another': 'another-value'}
+
+    url.append_url(Url(metadata={'another': 'another-value'}))
+    assert url.metadata == final_expected
+    assert Url(url).metadata == final_expected
+
+
 def test_basic_url_formatting():
     url = Url("/some/endpoint/{id}")
 

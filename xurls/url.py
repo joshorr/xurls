@@ -364,7 +364,7 @@ class Url:
     When appending a Url to another [via `Url.append_url`], if any particular component
     has a None value, it will not change the Url it's being appended to for that particular
     component. This allows you to append Urls together and only relevant/set-values will
-    be whats appended. This allows you to construct Urls based on pieces of Urls to construct
+    be what's appended. This allows you to construct Urls based on pieces of Urls to construct
     the final Url.
 
     When you append a Url, the path and query and methods are treated in a special way:
@@ -387,10 +387,10 @@ class Url:
     >>> urlc = Url()
     >>> urlc.scheme = 'http'
     >>> urlc.host = 'www.google.com'
-    >>> urlc.url()
+    >>> urlc.format()
     "http://www.google.com"
     >>> urlc = Url("http://www.google.com").append_url("/hello")
-    >>> urlc.url()
+    >>> urlc.format()
     "http://www.google.com/hello"
 
     """
@@ -405,7 +405,7 @@ class Url:
         """Will check to see if the passed in value is a `Url` (depending on the
             class you call `Url.ensure_url` on). If so, will return value unchanged.
             This is an optimization and the reason to use this method over just constructing
-            a new `Url` and passing the value into that. If the value is already a Url
+            a new `Url` and passing the value into that. If the value is already a Url,
             and it's formatting_options don't need to be set to `default_formatting_options`
             it will just return it without any extra work.
 
@@ -464,6 +464,8 @@ class Url:
         path: str = Default,
         query: Query = Default,
         fragment: str = Default,
+
+        metadata: dict = Default,
         formatting_options: UrlFormattingOptions = Default,
 
         # Params below are extra metadata about Url that is useful to communicate about:
@@ -572,10 +574,12 @@ class Url:
             self._path = result.path or None
             self._fragment = result.fragment or None
             self._query = self._parse_string_into_query(result.query)
+            self._metadata = {}
         elif isinstance(url, Url):
             self._copy_from_url(url)
         elif url in (None, Default):
             self._query = {}
+            self._metadata = {}
         else:
             raise TypeError(f"Type passed into Url(...) is not a str/Url/None, but ({type(url)}).")
 
@@ -603,6 +607,8 @@ class Url:
         if query is not Default:
             self._set_query(query)
 
+        if metadata is not Default:
+            self._metadata = metadata
     # ----------------------------------------
     # --------- Basic Url attributes ---------
 
@@ -695,6 +701,16 @@ class Url:
     # --------- Configuration ---------
 
     @property
+    def metadata(self) -> dict:
+        return self._metadata
+
+    @metadata.setter
+    def metadata(self, value: dict):
+        assert isinstance(value, dict)
+        # Shallow Copy the dict into self.
+        self._metadata = copy(value)
+
+    @property
     def singular(self) -> Optional[bool]:
         """This is a hint to the underlying system that the query will return a singular object
         instead of potentially many.  If this is None, then underlying system may try to
@@ -721,7 +737,7 @@ class Url:
         If `formatting_options` is None, then by default `DefaultQueryValueListFormat`
         will be used.
 
-        Just like other Url attributes, if `formatting_options` is None, it will and you
+        Just like other Url attributes, if `formatting_options` is None, it will, and you
         append this Url to another Url, `formatting_options` will not change.
 
         A query value can be either a str/int, or a list of str/int.
@@ -1065,11 +1081,37 @@ class Url:
         self.append_path(url.path)
         self.append_query(url._query)
         self.append_methods(url._methods)
+        self.append_metadata(url._metadata)
 
         for attr_name in _attributes_to_set_when_appending:
             other_value = getattr(url, attr_name, None)
             if other_value is not None:
                 setattr(self, attr_name, other_value)
+
+        return self
+
+    def append_metadata(self, value: dict | None):
+        """ Merge all dict values passed in into internal metadata dict,
+            setting the value inside self for every key in provided dict.
+
+            Any metadata keys on self that are not in passed in value dict will be left as-is.
+
+            A shallow copy will be made of value, ie: `copy(value)` before it's added to self.
+
+            `self` is returned, so you can chain this with other method calls.
+
+            If `None` is passed in, does nothing.
+        """
+        if value is None:
+            return self
+
+        metadata = self._metadata
+        if metadata is None:
+            metadata = {}
+            self._metadata = metadata
+
+        for k, v in value.items():
+            metadata[k] = copy(v)
 
         return self
 
@@ -1200,6 +1242,7 @@ class Url:
         self._query = copy(url._query)
         self._methods = copy(url._methods)
         self._cached_format_keys = copy(url._cached_format_keys)
+        self._metadata = copy(url._metadata)
 
     def _set_query(self, query: Query):
         """Makes _query the same as query, filter out None values and making a first-level deep
