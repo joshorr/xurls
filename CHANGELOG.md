@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/joshorr/xurls/compare/v1.4.0...v1.4.1) (2025-10-01)
+
+
+### Bug Fixes
+
+* add setuptools to dev dependencies. ([2c75356](https://github.com/joshorr/xurls/commit/2c753566b4282394da779f13bccb092eea25b9bd))
+
 ## [1.4.0](https://github.com/joshorr/xurls/compare/v1.3.0...v1.4.0) (2025-09-30)
 
 
