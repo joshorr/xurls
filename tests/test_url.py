@@ -43,7 +43,7 @@ def test_basic_url_formatting():
     url = url.copy_mutable()
 
     url.is_valid(secondary_values={'id': 1}, attach_values=True)
-    assert url.url() == "/some/endpoint/1"
+    assert url.format() == "/some/endpoint/1"
 
     url.is_valid(secondary_values={'id': "hello#1@gmail.com"}, attach_values=True)
     assert url.url() == "/some/endpoint/hello%231%40gmail.com"
