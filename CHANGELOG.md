@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0](https://github.com/joshorr/xurls/compare/v1.3.0...v1.4.0) (2025-09-30)
+
+
+### Features
+
+* add metadata option to Url. ([cd3f330](https://github.com/joshorr/xurls/commit/cd3f3301a2b09399cc6d5151d36d425c675dd9af))
+
 ## [1.3.0](https://github.com/joshorr/xurls/compare/v1.2.1...v1.3.0) (2025-08-08)
 
 
